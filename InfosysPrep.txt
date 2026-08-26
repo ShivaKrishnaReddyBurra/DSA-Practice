@@ -1,0 +1,343 @@
+
+
+-------------------------------------------------------------------------
+Remove Duplicates
+
+class Solution {
+    ArrayList<Integer> removeDuplicates(int[] arr) {
+        // code here
+        ArrayList<Integer> res = new ArrayList<>();
+        if(arr.length <= 0)
+            return res;
+            
+        res.add(arr[0]);
+        for(int i = 1; i < arr.length; i++)
+        {
+            if(arr[i] != arr[i-1])
+                res.add(arr[i]);
+        }
+        
+        return res;
+    }
+}
+
+
+-------------------------------------------------------------------
+Find Second Largest
+
+class Solution {
+    public int getSecondLargest(int[] arr) {
+        // code here
+        if(arr.length <= 1)
+            return -1;
+            
+        int largest = Integer.MIN_VALUE;
+        int secondLargest = Integer.MIN_VALUE;
+        
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(arr[i] > largest)
+            {
+                secondLargest = largest;
+                largest = arr[i];
+            }
+            else if(arr[i] > secondLargest && arr[i] < largest)
+                secondLargest = arr[i];
+        }
+        
+        if(secondLargest == Integer.MIN_VALUE)
+            return -1;
+            
+        return secondLargest;
+    }
+}
+
+---------------------------------------------------------------------
+Reverse an Array
+
+class Solution {
+    public void reverseArray(int arr[]) {
+      int start = 0;
+      int end = arr.length - 1;
+      
+      while(start < end)
+      {
+          int temp = arr[start];
+          arr[start] = arr[end];
+          arr[end] = temp;
+          
+          start++;
+          end--;
+      }
+    }
+}
+
+-------------------------------------------------------
+Two Sum: 
+
+
+class Solution {
+    boolean twoSum(int arr[], int target) {
+        // code here
+        HashMap<Integer,Integer> res = new HashMap<>();
+        
+        for(int i = 0; i < arr.length; i++)
+        {
+            int diff = target - arr[i];
+            
+            if(res.containsKey(diff))
+                return true;
+            res.put(arr[i], i);
+        }
+        
+        return false;
+    }
+}
+
+-----------------------------------------------------------
+
+Contains Duplicate:
+
+class Solution {
+    public boolean checkDuplicates(int arr[]) {
+        // Code here
+        HashSet<Integer> res = new HashSet<>();
+        if(arr.length <= 1)
+            return false;
+            
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(res.contains(arr[i]))
+                return true;
+            else
+                res.add(arr[i]);
+        } 
+        
+        return false;
+    }
+}
+
+-------------------------------------------------------------------
+
+Frequency of Elements
+
+class Solution {
+    public ArrayList<ArrayList<Integer>> countFreq(int[] arr) {
+        // code here
+        HashMap<Integer, Integer> freq = new HashMap<Integer,Integer>();
+        
+        for(int i = 0 ; i < arr.length; i++)
+        {
+            freq.put(arr[i], freq.getOrDefault(arr[i],0) + 1);
+        }
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        
+        for(int key : freq.keySet())
+        {
+            res.add(new ArrayList<>(Arrays.asList(key,freq.get(key))));
+        }
+        
+        
+        return res;
+    }
+}
+
+------------------------------------------------------------------------------
+
+Majority Element
+
+class Solution {
+    int majorityElement(int arr[]) {
+        // code here
+        HashMap<Integer, Integer> res = new HashMap<>();
+        
+        for(int i = 0; i < arr.length; i++)
+            res.put(arr[i], res.getOrDefault(arr[i], 0) + 1);
+            
+        int majVal = arr.length/2;
+        for(int key: res.keySet())
+        {
+            if(res.get(key) > majVal)
+                return key;
+        }
+        
+        return -1;
+    }
+}
+
+----------------------------------------------------------------------------------------
+
+Subarray Sum Equals K
+
+class Solution {
+    public int cntSubarrays(int[] arr, int k) {
+      
+      HashMap<Integer, Integer> prefixSumCount = new HashMap<>();
+      prefixSumCount.put(0,1);
+      
+      int sum = 0;
+      int count = 0;
+      
+      for(int i = 0; i < arr.length ; i++)
+      {
+          sum += arr[i];
+          
+          if(prefixSumCount.containsKey(sum - k))
+            count += prefixSumCount.get(sum - k);
+            
+          prefixSumCount.put(sum, prefixSumCount.getOrDefault(sum, 0) + 1);
+      }
+      
+      return count;
+    }
+}
+
+
+-------------------------------------------------------------------------------------------
+
+Valid Palindrome
+
+class Solution {
+    public boolean isPalinSent(String s) {
+        
+        String cleaned = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        
+        
+        int left = 0;
+        int right = cleaned.length() - 1;
+
+        while(left < right) {  
+            if(cleaned.charAt(left) != cleaned.charAt(right))
+                return false;
+            left++;
+            right--;
+        }
+
+        return true; 
+    }
+}
+
+------------------------------------------------------------------------------------------------
+3 SUM
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        
+        for (int i = 0; i < nums.length; i++) {
+            // Skip duplicate for first element
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+            
+            int l = i + 1, r = nums.length - 1;
+            
+            while (l < r) {
+                int sum = nums[i] + nums[l] + nums[r];
+                
+                if (sum == 0) {
+                    res.add(new ArrayList<>(Arrays.asList(nums[i], nums[l], nums[r])));
+                    
+                    // Skip duplicates for left pointer
+                    while (l < r && nums[l] == nums[l + 1]) l++;
+                    // Skip duplicates for right pointer
+                    while (l < r && nums[r] == nums[r - 1]) r--;
+                    
+                    l++;
+                    r--;
+                } else if (sum > 0) {
+                    r--;
+                } else {
+                    l++;
+                }
+            }
+        }
+        
+        return res;
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+Container With Most Water
+
+
+class Solution {
+    public int maxWater(int arr[]) {
+        int left = 0, right = arr.length-1;
+        
+        int max = 0;
+        
+        while (left < right)
+        {
+            int area = Math.min(arr[left],arr[right]) * (right - left);
+            if(area > max)
+                max = area;
+            
+            if(arr[left] < arr[right])
+                left++;
+            else
+                right--;
+        }
+        
+        return max;
+        
+    }
+}
+
+------------------------------------------------------------------------------------
+
+Maximum Sum Subarray of Size K
+
+class Solution {
+    public int maxSubarraySum(int[] arr, int k) {
+        int sum = 0;
+        
+        for(int i = 0; i < k; i++)
+            sum += arr[i];
+            
+        int maxSum = sum;
+        
+        for(int i = k; i < arr.length; i++)
+        {
+            sum += arr[i] -arr[i - k];
+            if(sum > maxSum)
+                maxSum = sum;
+        }
+        
+        return maxSum;
+        
+    }
+}
+
+-----------------------------------------------------------------------------------------
+
+Longest Substring Without Repeating Characters
+
+class Solution {
+    public int longestUniqueSubstr(String s) {
+      
+      HashMap<Character,Integer> check = new HashMap<>();
+      int maxLen = 0;
+      int start = 0;
+      
+      for(int end = 0; end < s.length(); end++)
+      {
+          char ch = s.charAt(end);
+          
+          if(check.containsKey(ch) && check.get(ch) >= start)
+            start = check.get(ch)+1;
+            
+        check.put(ch,end);
+        
+        int windowLen = end - start + 1;
+        if(windowLen > maxLen)
+            maxLen = windowLen;
+      }
+      
+      return maxLen;
+    }
+}
+
+---------------------------------------------------------------------
