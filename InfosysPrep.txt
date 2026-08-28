@@ -341,3 +341,272 @@ class Solution {
 }
 
 ---------------------------------------------------------------------
+
+Longest Repeating Character Replacement
+
+class Solution {
+    public int longestSubstr(String s, int k) {
+        // code here
+        
+        int maxCount = 0;
+        int maxLen = 0;
+        int left = 0;
+        int count[] = new int[26];
+        
+        for(int r = 0; r < s.length(); r++)
+        {
+            char c = s.charAt(r);
+            count[c - 'A']++;
+            
+            maxCount = Math.max(maxCount, count[c - 'A']);
+            
+            int windowLen = r - left + 1;
+            
+            if(windowLen - maxCount > k)
+            {
+                count[s.charAt(left) - 'A']--;
+                left++;
+            }
+            
+            maxLen = Math.max(maxLen, r - left + 1);
+        }
+        
+        return maxLen;
+    }
+}
+
+---------------------------------------------------------------------
+
+Range Sum
+
+class Solution {
+    public ArrayList<Integer> querySum(int[] arr, int[][] queries) {
+        int prefixSum[] = new int[arr.length];
+        
+        prefixSum[0] = arr[0];
+        for(int i = 1; i < arr.length; i++)
+            prefixSum[i] = prefixSum[i-1] + arr[i];
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        
+        for(int i = 0; i < queries.length; i++)
+        {
+            int left = queries[i][0] - 1;
+            int right = queries[i][1] - 1;
+            
+            if(left == 0)
+                res.add(prefixSum[right]);
+            else
+            {
+                int sum = prefixSum[right] - prefixSum[left - 1];
+                 res.add(sum);
+            }
+            
+        }
+        
+        return res;
+    }
+}
+
+-----------------------------------------------------------------------------
+
+Maximum Subarray 
+
+class Solution {
+    int maxSubarraySum(int[] arr) {
+        // Code here
+        int maxSum = arr[0];
+        int currSum = 0;
+        
+        for(int i : arr)
+        {
+            if(currSum < 0)
+                currSum = 0;
+                
+            currSum += i;
+            maxSum = Math.max(maxSum, currSum);
+        }
+        
+        return maxSum;
+    }
+}
+
+
+
+---------------------------------------------------------------------------------
+
+Reverse a String
+
+class Solution {
+    public static String reverseString(String s) {
+        // code here
+        int left = 0;
+        int right = s.length() - 1;
+        char[] chars = s.toCharArray();
+        
+        while(left < right)
+        {
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            left++;
+            right--;
+        }
+        
+        return new String(chars);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+Valid Anagram
+
+class Solution {
+    public static boolean areAnagrams(String s1, String s2) {
+        // code here
+        if(s1.length() != s2.length())
+            return false;
+        
+        HashMap<Character, Integer> charCount =
+                                    new HashMap<>();
+
+        // count frequency of each
+        // character in string s1
+        for (char ch : s1.toCharArray()) 
+            charCount.put(ch,
+                    charCount.getOrDefault(ch, 0) + 1);
+
+        // count frequency of each
+        // character in string s2
+        for (char ch : s2.toCharArray()) 
+            charCount.put(ch,
+                    charCount.getOrDefault(ch, 0) - 1);
+
+        // check if all frequencies are zero
+        for (var pair : charCount.entrySet()) {
+            if (pair.getValue() != 0) {
+                return false;
+            }
+        }
+            
+        return true;
+    }
+}
+
+------------------------------------------------------------------------------------------
+
+First Unique Character
+
+class Solution {
+    public char nonRepeatingChar(String s) {
+        // code here
+        HashMap<Character, Integer> check = new HashMap<>();
+        
+        for(int i = 0; i < s.length(); i++)
+            check.put(s.charAt(i), check.getOrDefault(s.charAt(i), 0) + 1);
+            
+        for(int i = 0; i < s.length(); i++)
+            if(check.get(s.charAt(i)) == 1)
+                return s.charAt(i);
+                
+        return '$';
+    }
+}
+
+
+-----------------------------------------------------------------------------------------------------
+
+Group Anagrams
+
+class Solution {
+    public ArrayList<ArrayList<String>> anagrams(String[] arr) {
+        
+        ArrayList<ArrayList<String>> res = new ArrayList<>();
+        
+        HashMap<String, Integer> map = new HashMap<>();
+        
+        for(int i = 0; i < arr.length; i++)
+        {
+            char chars[] = arr[i].toCharArray();
+            
+            Arrays.sort(chars);
+            
+            String s = new String(chars);
+            
+            if(!map.containsKey(s))
+            {
+                map.put(s, res.size());
+                res.add(new ArrayList<>());
+            }
+            res.get(map.get(s)).add(arr[i]);
+        }
+        
+        return res;
+        
+    }
+}
+
+------------------------------------------------------------------------
+Valid Parentheses
+
+
+class Solution {
+    public boolean isBalanced(String s) {
+        // code here
+        Stack<Character> check = new Stack<>();
+        
+        for(char ch : s.toCharArray())
+        {
+            if(ch == '[' || ch == '{' || ch == '(')
+                check.push(ch);
+                
+            else if(ch == ']' || ch == '}' || ch == ')')
+            {
+                if(check.isEmpty())
+                    return false;
+                
+                char top = check.peek();
+                
+                if((ch == ']' && top != '[') || (ch == '}' && top != '{') || (ch == ')' && top != '('))
+                    return false;
+                    
+                check.pop();
+            }
+        }
+        
+        return check.isEmpty();
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------
+
+Next Greater Element
+
+class Solution {
+    public ArrayList<Integer> nextLargerElement(int[] arr) {
+        // code here
+        
+        ArrayList<Integer> res = new ArrayList<>();
+        Stack<Integer> check = new Stack<>();
+        
+        for(int i = arr.length - 1; i >= 0; i--)
+        {
+            while(!check.isEmpty() && check.peek() <= arr[i])
+                check.pop();
+                
+            if(check.isEmpty())
+                res.add(-1);
+            else
+                res.add(check.peek());
+                
+            check.push(arr[i]);
+        }
+        
+        Collections.reverse(res);
+        
+        return res;
+        
+    }
+}
+
+--------------------------------------------------------------------------------------------------
+
