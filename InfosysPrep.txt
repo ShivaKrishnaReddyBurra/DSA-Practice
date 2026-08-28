@@ -609,4 +609,539 @@ class Solution {
 }
 
 --------------------------------------------------------------------------------------------------
+Preorder Traversal
+
+/* Structure of Tree Node
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}*/
+
+class Solution {
+    public ArrayList<Integer> preOrder(Node root) {
+        //  code here
+        ArrayList<Integer> res = new ArrayList<>();
+        traverse(root, res);
+        
+        return res;
+        
+       
+    }
+    
+    public void traverse(Node root, ArrayList<Integer> res)
+    {
+        if(root == null)
+            return;
+            
+        res.add(root.data);
+        
+        traverse(root.left, res);
+        traverse(root.right, res);
+    }
+}
+
+--------------------------------------------------------------------------------
+Inorder Traversal
+
+
+/* Structure of Binary Tree Node
+class Node {
+    int data;
+    Node left, right;
+    Node(int item){
+        data = item;
+        left = right = null;
+    }
+}*/
+
+class Solution {
+    public ArrayList<Integer> inOrder(Node root) {
+        // code here
+        ArrayList<Integer> res = new ArrayList<>();
+        traverse(root, res);
+
+        return res;
+
+    }
+    
+    public void traverse(Node root, ArrayList<Integer> res)
+    {
+        if(root == null)
+            return;
+
+
+        traverse(root.left, res);
+        res.add(root.data);
+        traverse(root.right, res);
+    }
+
+}
+
+-----------------------------------------------------------------------------------
+
+Postorder Traversal
+
+
+/* Structure of Binary Tree Node
+class Node {
+    int data;
+    Node left, right;
+    Node(int item){
+        data = item;
+        left = right = null;
+    }
+}*/
+
+class Solution {
+    public ArrayList<Integer> postOrder(Node root) {
+        // code here
+        ArrayList<Integer> res = new ArrayList<>();
+        traverse(root, res);
+
+        return res;
+
+    }
+
+    public void traverse(Node root, ArrayList<Integer> res)
+    {
+        if(root == null)
+            return;
+
+
+        traverse(root.left, res);
+        traverse(root.right, res);
+        res.add(root.data);
+    }
+
+}
+
+
+-------------------------------------------------------------------------------------------
+Level Order Traversal
+
+
+/* Structure of Binary Tree Node
+class Node {
+    public int data;
+    public Node left;
+    public Node right;
+
+    // Constructor
+    public Node(int val) {
+        data = val;
+        left = right = null;
+    }
+};*/
+
+class Solution {
+    public ArrayList<Integer> levelOrder(Node root) {
+        // code here
+        ArrayList<Integer> res = new ArrayList<>();
+        Queue<Node> q = new LinkedList<>();
+        
+        q.add(root);
+        
+        while(!q.isEmpty())
+        {
+            Node curr = q.poll();
+            
+            res.add(curr.data);
+            
+            if(curr.left != null)
+                q.add(curr.left);
+                
+            if(curr.right != null)
+                q.add(curr.right);
+        }
+        
+        return res;
+    }
+}
+
+
+public class GfG {
+    void levelOrderRec(Node root, int level,
+                       ArrayList<ArrayList<Integer>> res)
+    {
+        // Base case
+        if (root == null)
+            return;
+
+        // Add a new level to the result if needed
+        if (res.size() <= level)
+            res.add(new ArrayList<>());
+
+        // Add current node's data to its corresponding
+        // level
+        res.get(level).add(root.data);
+
+        // Recur for left and right children
+        levelOrderRec(root.left, level + 1, res);
+        levelOrderRec(root.right, level + 1, res);
+    }
+
+    // Function to perform level order traversal
+    ArrayList<ArrayList<Integer>> levelOrder(Node root)
+    {
+
+        // Stores the result level by level
+        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+        levelOrderRec(root, 0, res);
+        return res;
+    }
+
+-------------------------------------------------------------------------------------------
+Maximum Depth
+
+/*  Binary Tree Node Structure
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}
+*/
+class Solution {
+    public static int maxDepth(Node root) {
+        // code here
+        if(root == null)
+            return 0;
+        return 1+ Math.max(maxDepth(root.left),maxDepth(root.right));
+    }
+}
+
+------------------------------------------------------------------------------------------
+Same Tree
+
+/*
+class Node{
+    int data;
+    Node left, right;
+    Node(int d){
+        data=d;
+        left=right=null;
+    }
+}
+*/
+
+class Solution {
+    public boolean isIdentical(Node r1, Node r2) {
+        // code here
+        if(r1 == null && r2 == null)
+            return true;
+            
+        if(r1 == null || r2 == null)
+            return false;
+            
+        
+        return ((r1.data == r2.data) && isIdentical(r1.left, r2.left) && isIdentical(r1.right, r2.right));
+    }
+}
+
+----------------------------------------------------------------------------------------------------------------------
+
+Invert Binary Tree
+
+/* Structure of Binary Tree Node
+class Node
+{
+    int data;
+    Node left, right;
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
+
+class Solution {
+    void mirror(Node root) {
+        // code here
+        if (root == null)
+            return;
+            
+        mirror(root.left);
+        
+        mirror(root.right);
+        
+        Node temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+    }
+}
+
+
+--------------------------------------------------------------------------------------
+Symmetric Tree
+
+/*
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node(int data){
+        this.data = data;
+        left=null;
+        right=null;
+    }
+}
+*/
+
+class Solution {
+    public boolean isSymmetric(Node root) {
+        // code here
+        if(root == null)
+            return true;
+        
+         return isMirror(root.left, root.right);
+    }
+    
+    private boolean isMirror(Node t1, Node t2) {
+        // Both null -> symmetric
+        if (t1 == null && t2 == null) {
+            return true;
+        }
+        // One null, one not -> not symmetric
+        if (t1 == null || t2 == null) {
+            return false;
+        }
+        // Check current nodes and recurse in mirror fashion
+        return (t1.data == t2.data)
+            && isMirror(t1.left, t2.right)
+            && isMirror(t1.right, t2.left);
+    }
+}
+
+--------------------------------------------------------------------------------
+Path Sum
+
+
+/* A Binary Tree node
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node(int data){
+        this.data = data;
+        left=null;
+        right=null;
+    }
+} */
+
+class Solution {
+    boolean hasPathSum(Node root, int target) {
+        // code here
+        if(root == null)
+            return false;
+            
+        int sum = target - root.data;
+        
+        if(sum == 0 && root.left == null && root.right == null)
+            return true;
+         
+        boolean left = false, right = false;   
+        
+        if(root.left != null) left = hasPathSum(root.left, sum);
+        if(root.right != null) right = hasPathSum(root.right, sum);
+        
+        return left || right;
+    }
+}
+
+----------------------------------------------------------------------------------
+Diameter of Binary Tree
+
+/*Structure of binary tree Node
+class Node {
+    int data;
+    Node left;
+    Node right;
+    Node(int data) {
+        this.data = data;
+        left = right = null;
+    }
+};*/
+
+class Solution {
+    int maxDia = 0;
+    public int diameter(Node root) {
+        // code here
+        check(root);
+        return maxDia - 1;
+    }
+    
+    public int check(Node root)
+    {
+        if(root == null)
+            return 0;
+        
+        int leftDia = check(root.left);
+        int rightDia = check(root.right);
+        
+        int currDia = leftDia + rightDia + 1;
+        maxDia = Math.max(currDia, maxDia);
+        
+        return 1+ Math.max(leftDia, rightDia);
+    }
+}
+
+-------------------------------------------------------------------------------------
+Search in BST
+
+/*
+Definition for Node
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int val) {
+        data = val;
+        left = right = null;
+    }
+}
+*/
+
+class Solution {
+    public boolean search(Node root, int key) {
+        // code here
+        if(root == null)
+            return false;
+            
+        if(root.data == key)
+            return true;
+            
+        if(key > root.data)
+            return search(root.right,key);
+        
+        return search(root.left, key);
+    }
+}
+
+-----------------------------------------------------------------------------
+
+Validate BST
+
+/* Structure of a Binary Search Tree node
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int val) {
+        data = val;
+        left = right = null;
+    }
+} */
+
+class Solution {
+    public boolean isBST(Node root) {
+        // code here
+        return check(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+    
+    public boolean check(Node root, long min, long max)
+    {
+        if (root == null)
+            return true;
+            
+        if(root.data <= min || root.data >= max)
+            return false;
+            
+            
+        return check(root.left, min, root.data) && check(root.right, root.data, max);
+    }
+}
+
+------------------------------------------------------------------------------------------------
+Lowest Common Ancestor
+
+/* Structure of binary tree node
+class Node {
+    int data;
+    Node left;
+    Node right;
+
+    Node(int val) {
+        this.data = val;
+        left = right = null;
+    }
+}
+}*/
+
+class Solution {
+    Node lca(Node root, int n1, int n2) {
+        // code here
+        if(root == null)
+            return null;
+            
+        if(root.data == n1 || root.data == n2)
+            return root;
+            
+        Node lcaLeft = lca(root.left, n1, n2);
+        Node lcaRight = lca(root.right, n1, n2);
+        
+        if(lcaLeft != null && lcaRight != null)
+            return root;
+            
+        return (lcaLeft != null) ? lcaLeft : lcaRight;
+    }
+}
+
+--------------------------------------------------------------------------
+
+Kth Smallest Element in BST
+
+/*
+Definition for Node
+class Node {
+    int data;
+    Node left, right;
+
+    public Node(int val)
+    {
+        data = val;
+        left = right = null;
+    }
+}
+*/
+
+class Solution {
+    public int kthSmallest(Node root, int k) {
+        // code here
+        ArrayList<Integer> res = new ArrayList<>();
+        
+        inOrder(root, res);
+        
+        if(res.size() < k)
+            return -1;
+        
+        return res.get(k-1);
+    }
+    
+    public void inOrder(Node root, ArrayList<Integer> res)
+    {
+        if (root == null)
+            return;
+            
+        inOrder(root.left, res);
+        res.add(root.data);
+        inOrder(root.right, res);
+    }
+}
+
+-------------------------------------------------------------------------------------
+
+
 
