@@ -190,3 +190,96 @@ Therefore, the same `.class` file can run on different platforms as long as a co
 This is the idea behind:
 
 > **"Write Once, Run Anywhere."**
+
+
+# JVM, JRE and JDK
+
+## JVM (Java Virtual Machine)
+
+* **Definition:** JVM is an engine that loads and executes Java bytecode.
+* **Function:** It executes Java bytecode and converts it into machine-specific instructions that the underlying operating system and hardware can execute.
+* **Key Features:**
+
+  * Provides **platform independence** by allowing the same bytecode to run on different operating systems.
+  * Handles **memory management**.
+  * Performs **garbage collection**.
+  * Provides a runtime environment for executing Java programs.
+
+> **In simple terms:** JVM is responsible for **running Java programs**.
+
+---
+
+## JRE (Java Runtime Environment)
+
+* **Definition:** JRE is a software environment that provides everything required to **run Java applications**.
+* **Composition:**
+
+  ```text
+  JRE = JVM + Java Class Libraries + Supporting Files
+  ```
+* **Use Case:** Primarily intended for running Java applications rather than developing them.
+* **Important:** JRE does not provide development tools such as the Java compiler (`javac`).
+
+> **In simple terms:** JRE provides the **environment required to run Java programs**.
+
+---
+
+## JDK (Java Development Kit)
+
+* **Definition:** JDK is a complete software development kit used to **develop, compile, debug, and run Java applications**.
+* **Composition:**
+
+  ```text
+  JDK = JRE + Development Tools
+  ```
+* **Development Tools include:**
+
+  * Java compiler (`javac`)
+  * Java debugger
+  * JAR packaging tools
+  * Documentation tools
+  * Other Java development utilities
+* **Use Case:** Required by developers to **write, compile, test, debug, and package** Java applications.
+
+> **In simple terms:** JDK provides everything needed to **develop Java programs**.
+
+---
+
+## Relationship Between JVM, JRE and JDK
+
+```text
+JDK
+│
+├── Development Tools
+│   ├── javac (Compiler)
+│   ├── Debugger
+│   ├── JAR Tool
+│   └── Other Tools
+│
+└── JRE
+    │
+    ├── JVM
+    │   └── Executes Java Bytecode
+    │
+    └── Java Class Libraries
+```
+
+### Quick Comparison
+
+| Feature                        | JVM           | JRE                          | JDK                        |
+| ------------------------------ | ------------- | ---------------------------- | -------------------------- |
+| **Purpose**                    | Runs bytecode | Provides runtime environment | Develops Java applications |
+| **Contains JVM**               | —             | Yes                          | Yes                        |
+| **Contains Java Libraries**    | No            | Yes                          | Yes                        |
+| **Contains Compiler**          | No            | No                           | Yes                        |
+| **Contains Development Tools** | No            | No                           | Yes                        |
+| **Used By**                    | Runtime       | End users / runtime          | Developers                 |
+
+### Easy Way to Remember
+
+> **JVM → Runs Java bytecode**
+> **JRE → Runs Java applications**
+> **JDK → Develops Java applications**
+
+**JDK > JRE > JVM**
+
