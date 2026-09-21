@@ -1499,3 +1499,94 @@ A good concise answer is:
 7. Server processes the request and sends an HTTP response.
 8. Browser receives the resources and renders the webpage.
 ```
+
+# TCP vs. UDP and HTTP/HTTPS
+
+## TCP vs. UDP
+
+| Feature              | TCP (Transmission Control Protocol)                                                                                   | UDP (User Datagram Protocol)                                                                                     |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Connection Style** | **Connection-oriented** — requires a 3-way handshake before data transfer.                                            | **Connectionless** — sends data directly without establishing a connection first.                                |
+| **Reliability**      | **Reliable delivery** — lost packets can be retransmitted, and errors are detected.                                   | **Best-effort delivery** — packets may be lost, duplicated, or arrive corrupted without built-in retransmission. |
+| **Ordering**         | **Ordered delivery** — data is delivered to the application in the order sent.                                        | **No ordering guarantee** — packets may arrive in a different order.                                             |
+| **Speed**            | Generally **slower** because of connection management, acknowledgments, retransmissions, and flow/congestion control. | Generally **faster/lower overhead** because it does not provide TCP's reliability mechanisms.                    |
+| **Use Cases**        | Web browsing (**HTTP/HTTPS**), email (**SMTP/IMAP**), file transfers (**FTP**), secure shell (**SSH**).               | Live streaming, online gaming, Voice over IP (**VoIP**), DNS lookups.                                            |
+
+> **Important:** UDP itself does not guarantee that packets will be delivered or remain uncorrupted. Applications can implement their own reliability mechanisms when needed.
+
+---
+
+# HTTP/HTTPS Study Guide
+
+## HTTP Methods (Verbs)
+
+### GET
+
+Retrieves data from a server.
+
+* Used to fetch resources.
+* It should not intentionally modify server-side data.
+* Example:
+
+  ```http
+  GET /users/123
+  ```
+
+### POST
+
+Submits data to the server, commonly to create a new resource or trigger an operation.
+
+* Data is usually sent in the request body.
+* Example:
+
+  ```http
+  POST /users
+  ```
+
+### PUT
+
+Replaces an existing resource entirely, or can create a resource at a specified URI when supported by the server.
+
+* Usually used when the client provides the complete representation of the resource.
+* Example:
+
+  ```http
+  PUT /users/123
+  ```
+
+### PATCH
+
+Applies partial modifications to an existing resource.
+
+* Only the fields that need to be changed are sent.
+* Example:
+
+  ```http
+  PATCH /users/123
+  ```
+
+### DELETE
+
+Removes a specific resource from the server.
+
+* Example:
+
+  ```http
+  DELETE /users/123
+  ```
+
+---
+
+# Common HTTP Status Codes
+
+| Status Code                   | Meaning                        | Description                                                                         |
+| ----------------------------- | ------------------------------ | ----------------------------------------------------------------------------------- |
+| **200 OK**                    | Request successful             | The request was successfully processed.                                             |
+| **201 Created**               | Resource created               | A new resource was successfully created.                                            |
+| **400 Bad Request**           | Client error                   | The server cannot process the request because of invalid or malformed input.        |
+| **401 Unauthorized**          | Authentication required/failed | The request does not contain valid authentication credentials.                      |
+| **403 Forbidden**             | Access denied                  | The server understood the request, but refuses to authorize access to the resource. |
+| **404 Not Found**             | Resource not found             | The requested resource or URL path could not be found.                              |
+| **500 Internal Server Error** | Server error                   | The server encountered an unexpected condition while processing the request.        |
+
+---
